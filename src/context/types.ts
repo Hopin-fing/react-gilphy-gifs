@@ -1,0 +1,1 @@
+export const SEARCH_TAGS = 'SEARCH_TAGS';
