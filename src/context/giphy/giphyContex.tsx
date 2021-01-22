@@ -6,4 +6,4 @@ interface IContextProps {
     loading: boolean
 }
 
-export const GilphyContext = createContext({} as IContextProps)
+export const GiphyContext = createContext({} as IContextProps)

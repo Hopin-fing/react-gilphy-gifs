@@ -1,13 +1,13 @@
 import React from 'react';
 import './App.css';
 import Header from "./components/Header/Header";
-import GilphyState from "./context/giphy/gilphyState";
+import GiphyState from "./context/giphy/giphyState";
 
 function App() {
   return (
-    <GilphyState className="App">
+    <GiphyState className="App">
       <Header/>
-    </GilphyState>
+    </GiphyState>
   );
 }
 

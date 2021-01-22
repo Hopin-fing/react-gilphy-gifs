@@ -1,18 +1,18 @@
 import React, {useContext, useState} from 'react';
 import Search from "./Search";
 import Button from "./Button";
-import {GilphyContext} from "../../context/giphy/gilphyContex";
+import {GiphyContext} from "../../context/giphy/giphyContex";
 
 const Header: any = () => {
     const [warning, setWarning] = useState(false);
     const [value, setValue] = useState('');
-    const gilphy = useContext(GilphyContext)
+    const giphy = useContext(GiphyContext)
 
 
 
     const sendTag : any = () => {
         if(value.trim()) {
-            gilphy.search(value)
+            giphy.search(value)
             setWarning(false)
         }else{
             console.log(value)
