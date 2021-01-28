@@ -10,22 +10,24 @@ const Header: any = () => {
 
 
 
+
     const sendTag : any = () => {
-        if(value.trim()) {
-            giphy.search(value)
+        if(value.trim().toLowerCase()) {
+            const correctValue = value.trim().toLowerCase()
+            giphy.search(correctValue)
             setWarning(false)
         }else{
-            console.log(value)
             setWarning(true)
         }
     }
 
+    const handlerGroupMode : any = () => {
+        giphy.setGroupMode()
+    }
 
-    // const takeValueRequest:any = (valueRequest : any = null) => {
-    //
-    //
-    // }
-
+    const clearPage : any = () => {
+        giphy.clearImg()
+    }
 
 
     return (
@@ -34,14 +36,20 @@ const Header: any = () => {
                 valueRequest={setValue}
                 warning={warning}
             />
+
+            {giphy.loading
+                ? <Button disabled={true}
+                >Загрузка...</Button>
+                : <Button
+                    onClick={sendTag}
+                >Загрузить</Button>
+            }
+
             <Button
-                onClick={sendTag}
-            >Загрузить</Button>
-            <Button
-                // onClick={sendTag}
+                onClick={clearPage}
             >Очистить</Button>
             <Button
-                // onClick={sendTag}
+                onClick={handlerGroupMode}
             >Группировать</Button>
         </div>
     )

@@ -2,7 +2,12 @@ import {createContext} from 'react'
 
 interface IContextProps {
     search: any,
-    img: string,
+    setGroupMode: any,
+    state: any,
+    clearImg: any,
+    img: any,
+    data: any,
+    groupMode: boolean,
     loading: boolean
 }
 

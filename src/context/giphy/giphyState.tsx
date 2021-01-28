@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 import {GiphyContext} from './giphyContex';
 import axios from "axios";
 import { giphyReducer } from './giphyReducer';
-import {SEARCH_TAGS} from "../types";
+import {CLEAR_IMG, SEARCH_TAGS, SET_GROUP_MODE, SET_LOADING} from "../types";
 
 
 const API_KEY : any = process.env.REACT_APP_API_KEY;
@@ -10,7 +10,9 @@ const API_KEY : any = process.env.REACT_APP_API_KEY;
 
 const GiphyState = ({children} : any) => {
     const initialState : any  = {
-        tags: [],
+        data: {},
+        img: [],
+        groupMode: false,
         loading: false
     };
 
@@ -18,6 +20,8 @@ const GiphyState = ({children} : any) => {
 
 
     const search = async (tag : any)   => {
+
+        setLoading()
 
         const response = await axios.get(
             `https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${tag}&rating=r`
@@ -29,9 +33,6 @@ const GiphyState = ({children} : any) => {
             tag,
             image_url
         };
-        console.log(state)
-
-
 
         dispatch({
             type: SEARCH_TAGS,
@@ -39,9 +40,16 @@ const GiphyState = ({children} : any) => {
         })
     }
 
-    const {img, loading} = state
+
+    const setGroupMode = () => dispatch({type:SET_GROUP_MODE})
+    const setLoading = () => dispatch({type:SET_LOADING})
+
+    const clearImg = ()  => dispatch({type: CLEAR_IMG})
+
+
+    const {data, img, groupMode, loading} = state
     return (
-        <GiphyContext.Provider value={{search, img, loading}}>
+        <GiphyContext.Provider value={{search, setGroupMode, clearImg, state, data, groupMode, img, loading}}>
             {children}
         </GiphyContext.Provider>
     )

@@ -16,7 +16,7 @@ export const Search : any = ({valueRequest, warning}: any) => {
                 className="form-control"
                 placeholder="введите тег"
                 value={value}
-                onChange={event => setValue(event.target.value)}
+                onChange={event => setValue(event.target.value.replace(/[^A-Za-z +,]/ig, ''))}
                 onKeyUp={handlerValue}
             />
             {warning
