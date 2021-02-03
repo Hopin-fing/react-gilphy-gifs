@@ -1,13 +1,15 @@
 import {createContext} from 'react'
 
 interface IContextProps {
-    search: any,
+    searchSimpleTag: any,
+    searchCustomTag: any,
     setGroupMode: any,
     state: any,
     clearImg: any,
     img: any,
     data: any,
     groupMode: boolean,
+    incorrectTag: boolean,
     loading: boolean
 }
 
