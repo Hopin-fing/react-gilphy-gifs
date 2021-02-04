@@ -35,18 +35,27 @@ export const  giphyReducer = (state : any, action : any) => {
                      currentInfo
             };
 
-            const newImg = [
+            const newImg  = [
                 ...state.img,
-                action.payload['image_url']
+                action.payload['image_string']
             ]
 
-            return {
+            if(action.payload['image_string'] === null) {
+                return {
+                    ...state,
+                    data: newInfo,
+                    loading: false,
+                    incorrectTag: false,
+                }
+            } else return {
                 ...state,
                 data: newInfo,
                 img: newImg,
                 loading: false,
-                incorrectTag: false
+                incorrectTag: false,
             }
+
+
         }
 
         case 'SET_GROUP_MODE': {

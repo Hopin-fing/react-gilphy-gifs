@@ -7,9 +7,22 @@ import {CLEAR_IMG, SEARCH_CUSTOM_TAGS, SEARCH_SIMPLE_TAGS, SET_GROUP_MODE, SET_L
 
 const API_KEY : any = process.env.REACT_APP_API_KEY;
 
+type TypeTagResponse = {
+    tag : string[],
+    image_url : string | null,
+    image_string ?: null,
+}
+type TypeState = {
+    data: object,
+    img: Array<string>,
+    groupMode: boolean,
+    incorrectTag: boolean,
+    loading: boolean
+}
+
 
 const GiphyState = ({children} : any) => {
-    const initialState : any  = {
+    const initialState : TypeState  = {
         data: {},
         img: [],
         groupMode: false,
@@ -17,8 +30,11 @@ const GiphyState = ({children} : any) => {
         loading: false
     };
 
+
     const [state, dispatch] = useReducer(giphyReducer, initialState);
-    const tagExist = (response : any, type : any, payload : any ) => {
+    const tagExist = (response : Array<object>, type : string, payload : object ) => {
+
+
         if (Object.keys(response).length) {
 
             dispatch({
@@ -33,7 +49,7 @@ const GiphyState = ({children} : any) => {
         }
     }
 
-    const searchSimpleTag = async (tag : any)   => {
+    const searchSimpleTag = async (tag : Array<string>)   => {
         setLoading()
 
         const response = await axios
@@ -43,10 +59,13 @@ const GiphyState = ({children} : any) => {
 
 
         const imageUrl = response['image_url']
-        const newResponse = {
+        const newResponse : TypeTagResponse = {
             tag,
             'image_url' : imageUrl
         };
+
+        console.log(newResponse)
+
 
 
         tagExist(response, SEARCH_SIMPLE_TAGS, newResponse)
@@ -55,29 +74,37 @@ const GiphyState = ({children} : any) => {
 
     }
 
-    const searchCustomTag = async (tag : any)   => {
+    const searchCustomTag = async (tag : Array<string>)   => {
         setLoading()
 
-        const  responseArr : any = tag.map( (item : any) => {
+        const  responseArr : any = tag.map( (item : string) => {
             return axios
                 .get(`https://api.giphy.com/v1/gifs/random?api_key=${API_KEY}&tag=${item}&rating=r`)
                 .then(res => res.data.data['image_url'])
         })
 
+
         Promise.all(responseArr).then( imageUrl => {
 
-
-            const newResponse = {
-                tag,
-                'image_string' : imageUrl.join(),
-                'image_array' : imageUrl
-            };
-
-            console.log(newResponse)
-            console.log(state)
+            tag.map((item : string, index: number) => {
+                const newResponse : any = {
+                    tag: item,
+                    'image_url' : imageUrl[index]
+                }
 
 
-            tagExist(responseArr, SEARCH_CUSTOM_TAGS, newResponse)
+
+                if(tag.length - 1 !== index) {
+                    newResponse['image_string'] = null
+                }else {
+                    newResponse['image_string'] = imageUrl.join()
+                }
+
+                return tagExist(responseArr, SEARCH_CUSTOM_TAGS, newResponse)
+
+            })
+
+
 
         });
 

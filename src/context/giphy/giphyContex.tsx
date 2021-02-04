@@ -6,7 +6,7 @@ interface IContextProps {
     setGroupMode: any,
     state: any,
     clearImg: any,
-    img: any,
+    img: Array<string>,
     data: any,
     groupMode: boolean,
     incorrectTag: boolean,
