@@ -1,7 +1,19 @@
 import React, {useEffect, useState} from 'react';
 
-export const Search : any = ({tagValue, valueRequest, clearInput, toggleClearValue,   warning}: any) => {
+// type SearchProps = {
+//     tagValue: string | number | readonly string[] | undefined,
+//     valueRequest: void,
+//     clearInput: any,
+//     toggleClearValue: any,
+//     warning: any,
+//
+//
+// }
+
+export const Search = ({tagValue, valueRequest, clearInput, toggleClearValue, warning} : any) => {
     const [value, setValue] = useState(tagValue);
+
+    console.log(typeof valueRequest)
 
 
     const handlerValue : any = () => {

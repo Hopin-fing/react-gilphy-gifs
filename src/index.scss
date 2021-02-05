@@ -1,3 +1,4 @@
+@import "~bootstrap/scss/bootstrap.scss";
 body {
   margin: 0;
   font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
@@ -10,4 +11,21 @@ body {
 code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
+}
+
+.container-img {
+  max-height: 350px;
+}
+
+img {
+  width: 100%;
+  &.img_2 {
+    max-height: 50%;
+  }
+  &.img_3 {
+    max-height: 33.3%;
+  }
+  &.img_4 {
+    max-height: 25%;
+  }
 }

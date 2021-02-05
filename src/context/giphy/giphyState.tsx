@@ -64,10 +64,6 @@ const GiphyState = ({children} : any) => {
             'image_url' : imageUrl
         };
 
-        console.log(newResponse)
-
-
-
         tagExist(response, SEARCH_SIMPLE_TAGS, newResponse)
 
 

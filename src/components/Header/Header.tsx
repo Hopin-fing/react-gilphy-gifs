@@ -12,7 +12,7 @@ const Header: any = () => {
 
 
 
-    const checkCoastTag : any = () => {
+    const checkCoastTag = () => {
         const tag = value.trim()
         if(tag) {
             const splitTag = tag.split(',')
@@ -30,32 +30,26 @@ const Header: any = () => {
 
     }
 
-    const sendTag : any = () => {
+    const sendTag = () => {
         const correctValue = value.trim().toLowerCase()
         giphy.searchSimpleTag(correctValue)
 
     }
 
-    const sendCustomTag : any = (tag : any)  => {
+    const sendCustomTag  = (tag : Array<string>)  => {
         const correctTag = tag.map((item: any) =>
             item.trim().toLowerCase()
         )
 
         giphy.searchCustomTag(correctTag)
 
-        // if(value.trim().toLowerCase()) {
-        //     giphy.search(correctValue)
-        //     setWarning(false)
-        // }else{
-        //     setWarning(true)
-        // }
     }
 
-    const handlerGroupMode : any = () => {
+    const handlerGroupMode = () => {
         giphy.setGroupMode()
     }
 
-    const clearPage : any = () => {
+    const clearPage = () => {
         setValue('')
         setClearInput(true)
         giphy.clearImg()
@@ -63,7 +57,11 @@ const Header: any = () => {
 
 
     return (
-        <div>
+        <div className={'container pt-4'}>
+            <p>Привет! Введите Введите теги для получения гифок (Для примера введите слово "cat" и нажмите загрузить).
+                Допускаются теги, которые состоят только из латинских букв, также вы можете записывать составные теги через ",".
+                Максимальное количество тегов в составном теге - 4 слова. Также при нажатии на кнопку "Группировать"
+            </p>
             {giphy.incorrectTag
             ? <h3>Введенный тег не был найден (</h3>
             : null}
@@ -76,17 +74,22 @@ const Header: any = () => {
             />
 
             {giphy.loading
-                ? <Button disabled={true}
+                ? <Button
+                    classBtn={'btn-secondary'}
+                    disabled={true}
                 >Загрузка...</Button>
                 : <Button
+                    classBtn={'btn-primary'}
                     onClick={checkCoastTag}
                 >Загрузить</Button>
             }
 
             <Button
+                classBtn={'btn-danger'}
                 onClick={clearPage}
             >Очистить</Button>
             <Button
+                classBtn={'btn-success'}
                 onClick={handlerGroupMode}
             >Группировать</Button>
         </div>

@@ -6,7 +6,7 @@ import Body from "./components/Body/Body";
 
 function App() {
   return (
-    <GiphyState className="App">
+    <GiphyState className="App ">
       <Header/>
       <Body/>
 
