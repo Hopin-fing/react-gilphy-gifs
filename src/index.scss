@@ -25,7 +25,17 @@ img {
   &.img_3 {
     max-height: 33.3%;
   }
-  &.img_4 {
-    max-height: 25%;
+}
+
+.container-btn {
+  button {
+    margin: 0  15px  0 0;
   }
+}
+
+
+.div-warning {
+  font-size: 18px;
+  color: #dc3545;
+  margin-bottom: 15px;
 }

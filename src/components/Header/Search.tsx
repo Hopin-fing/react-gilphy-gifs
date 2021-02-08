@@ -1,19 +1,9 @@
 import React, {useEffect, useState} from 'react';
 
-// type SearchProps = {
-//     tagValue: string | number | readonly string[] | undefined,
-//     valueRequest: void,
-//     clearInput: any,
-//     toggleClearValue: any,
-//     warning: any,
-//
-//
-// }
 
-export const Search = ({tagValue, valueRequest, clearInput, toggleClearValue, warning} : any) => {
+export const Search = ({tagValue, valueRequest, clearInput, toggleClearValue} : any) => {
     const [value, setValue] = useState(tagValue);
 
-    console.log(typeof valueRequest)
 
 
     const handlerValue : any = () => {
@@ -39,13 +29,10 @@ export const Search = ({tagValue, valueRequest, clearInput, toggleClearValue, wa
                 className="form-control"
                 placeholder="введите тег"
                 value={value}
-                onChange={event => setValue(event.target.value.replace(/[^A-Za-z +,]/ig, ''))}
+                onChange={event => setValue(event.target.value.replace(/[^A-Za-z +,ХЪ]/ig, ''))}
                 onKeyUp={handlerValue}
             />
-            {warning
-                ? <span>заполните поле 'тег'</span>
-                : null
-            }
+
         </div>
     )
 

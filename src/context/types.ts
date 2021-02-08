@@ -1,6 +1,7 @@
 export const SEARCH_SIMPLE_TAGS = 'SEARCH_SIMPLE_TAGS';
 export const SEARCH_CUSTOM_TAGS = 'SEARCH_CUSTOM_TAGS';
 export const TAG_NOT_FOUND = 'TAG_NOT_FOUND';
+export const TAGS_NOT_FOUND = 'TAGS_NOT_FOUND';
 export const SET_LOADING = 'SET_LOADING';
 export const SET_GROUP_MODE = 'SET_GROUP_MODE';
 export const CLEAR_IMG = 'CLEAR_IMG';

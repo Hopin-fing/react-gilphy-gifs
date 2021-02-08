@@ -8,24 +8,21 @@ const Body = () => {
         return  tag.split(',').length
     }
 
-    console.log(lengthTag('dog,cat'))
     return (
         <div className={'container pt-4'}>
             <div  className={'row'}>
             {groupMode
                 ?
                 dataTag.map((key: any, index: any) => (
-
-
-                <div className={'col-sm-12 mb-12'} key={`h1_${index}`}>
-                    <h1 >{key}</h1>
+                <Fragment key={`fragment_${index}`}>
+                    <h1 className={'col-sm-12 mb-12'}  key={`h1_${index}`} >{key}</h1>
                     {[...data[key]].map((tag:any, index : any) => (
-                        <div className={'col-sm-4 mb-4'}>
-                            <img key={`img_${index}`}  src={tag} alt={'Gif'}/>
+                        <div className={'col-sm-4 mb-4'} key={`container-img_${index}`}>
+                            <img key={`img_${index}`}   src={tag} alt={'Gif'}/>
                         </div>
                     ))
                     }
-                </div>
+                </Fragment>
                 ))
 
                 : <Fragment>
@@ -42,7 +39,6 @@ const Body = () => {
                             }
 
                         </div>
-
 
                     )
                     }

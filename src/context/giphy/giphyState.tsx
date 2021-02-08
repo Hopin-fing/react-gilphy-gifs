@@ -2,7 +2,7 @@ import React, {useReducer} from 'react';
 import {GiphyContext} from './giphyContex';
 import axios from "axios";
 import { giphyReducer } from './giphyReducer';
-import {CLEAR_IMG, SEARCH_CUSTOM_TAGS, SEARCH_SIMPLE_TAGS, SET_GROUP_MODE, SET_LOADING, TAG_NOT_FOUND} from "../types";
+import {CLEAR_IMG, SEARCH_CUSTOM_TAGS, SEARCH_SIMPLE_TAGS, SET_GROUP_MODE, SET_LOADING, TAGS_NOT_FOUND, TAG_NOT_FOUND} from "../types";
 
 
 const API_KEY : any = process.env.REACT_APP_API_KEY;
@@ -17,7 +17,8 @@ type TypeState = {
     img: Array<string>,
     groupMode: boolean,
     incorrectTag: boolean,
-    loading: boolean
+    incorrectTags: Array<string>
+    loading: boolean,
 }
 
 
@@ -27,19 +28,32 @@ const GiphyState = ({children} : any) => {
         img: [],
         groupMode: false,
         incorrectTag: false,
-        loading: false
+        loading: false,
+        incorrectTags: []
     };
 
 
+
+
     const [state, dispatch] = useReducer(giphyReducer, initialState);
-    const tagExist = (response : Array<object>, type : string, payload : object ) => {
+    const tagExist = (response : Array<object>, type : string, payload : object, wrongTagsCost :Array<string> = [] ) => {
 
 
-        if (Object.keys(response).length) {
+        console.log(response)
+        console.log(payload)
+        console.log(wrongTagsCost)
+        // response.forEach(element => console.log(element))
+        // console.log(payload.split(','))
 
+        if (Object.keys(response).length && wrongTagsCost.length === 0) {
             dispatch({
                 type: type,
                 payload: payload
+            })
+        } else if ( wrongTagsCost.length > 0) {
+            dispatch({
+                type: TAGS_NOT_FOUND,
+                payload: wrongTagsCost
             })
         } else {
 
@@ -64,6 +78,7 @@ const GiphyState = ({children} : any) => {
             'image_url' : imageUrl
         };
 
+
         tagExist(response, SEARCH_SIMPLE_TAGS, newResponse)
 
 
@@ -82,10 +97,16 @@ const GiphyState = ({children} : any) => {
 
         Promise.all(responseArr).then( imageUrl => {
 
+            let wrongTagsCost : Array<string> =  []
+
             tag.map((item : string, index: number) => {
                 const newResponse : any = {
                     tag: item,
                     'image_url' : imageUrl[index]
+                }
+
+                if(imageUrl[index] === undefined) {
+                    wrongTagsCost.push(item)
                 }
 
 
@@ -96,10 +117,12 @@ const GiphyState = ({children} : any) => {
                     newResponse['image_string'] = imageUrl.join()
                 }
 
-                return tagExist(responseArr, SEARCH_CUSTOM_TAGS, newResponse)
+
+                return tagExist(responseArr, SEARCH_CUSTOM_TAGS, newResponse, wrongTagsCost)
 
             })
 
+            console.log(wrongTagsCost)
 
 
         });
@@ -118,10 +141,10 @@ const GiphyState = ({children} : any) => {
     const clearImg = ()  => dispatch({type: CLEAR_IMG})
 
 
-    const {data, img, groupMode, incorrectTag, loading} = state
+    const {data, img, groupMode, incorrectTag, incorrectTags, loading} = state
     return (
         <GiphyContext.Provider value={{searchSimpleTag, searchCustomTag, setGroupMode, clearImg,
-            state, data, groupMode, incorrectTag, img, loading}}>
+            state, data, groupMode, incorrectTag, incorrectTags, img, loading}}>
             {children}
         </GiphyContext.Provider>
     )

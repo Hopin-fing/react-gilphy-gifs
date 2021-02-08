@@ -4,7 +4,8 @@ import Button from "./Button";
 import {GiphyContext} from "../../context/giphy/giphyContex";
 
 const Header: any = () => {
-    const [warning, setWarning] = useState(false);
+    const [warningEmptyTag, setWarningEmptyTag] = useState(false);
+    const [warningManyTags, setWarningManyTags] = useState(false);
     const [value, setValue] = useState('');
     const [clear, setClearInput] = useState(false);
     const giphy = useContext(GiphyContext)
@@ -16,19 +17,25 @@ const Header: any = () => {
         const tag = value.trim()
         if(tag) {
             const splitTag = tag.split(',')
-
-            if (splitTag.length >= 2) {
+            if (4 > splitTag.length && splitTag.length >= 2){
                 sendCustomTag(splitTag)
+            }
+            else if(4 < splitTag.length) {
+                setWarningManyTags(true)
             } else {
                 sendTag()
             }
-            setWarning(false)
+            setWarningEmptyTag(false)
+            setWarningManyTags(false)
         }else{
-            setWarning(true)
+            setWarningManyTags(true)
+
         }
 
 
     }
+
+    console.log(giphy.incorrectTags.length)
 
     const sendTag = () => {
         const correctValue = value.trim().toLowerCase()
@@ -58,21 +65,31 @@ const Header: any = () => {
 
     return (
         <div className={'container pt-4'}>
-            <p>Привет! Введите Введите теги для получения гифок (Для примера введите слово "cat" и нажмите загрузить).
+            <p>Привет! Введите теги для получения гифок (Для примера введите слово "cat" и нажмите загрузить).
                 Допускаются теги, которые состоят только из латинских букв, также вы можете записывать составные теги через ",".
-                Максимальное количество тегов в составном теге - 4 слова. Также при нажатии на кнопку "Группировать"
+                Максимальное количество тегов в составном теге - 3 слова. Также при нажатии на кнопку "Группировать" вы распределите
+                гифки по соответствующим категориям.
             </p>
             {giphy.incorrectTag
-            ? <h3>Введенный тег не был найден (</h3>
+            ? <div className={'div-warning'}>Введенный тег не был найден (</div>
             : null}
+            { giphy.incorrectTags.length > 0
+                ? <div className={'div-warning'}>Перечисленные теги не были найдены: {giphy.incorrectTags.reduce((a, b) => {return a + ', ' + b }) }</div>
+                : null}
+            {warningManyTags
+                ? <div className={'div-warning'}>Слишком большое количество тегов(</div>
+                : null}
+            {warningEmptyTag
+                ? <div className={'div-warning'}>Заполните поле 'тег'</div>
+                : null
+            }
             <Search
                 tagValue = {value}
                 valueRequest={setValue}
                 toggleClearValue={setClearInput}
                 clearInput={clear}
-                warning={warning}
             />
-
+            <div className={'container-btn'}>
             {giphy.loading
                 ? <Button
                     classBtn={'btn-secondary'}
@@ -91,7 +108,12 @@ const Header: any = () => {
             <Button
                 classBtn={'btn-success'}
                 onClick={handlerGroupMode}
-            >Группировать</Button>
+            >
+                {!giphy.groupMode
+                ? 'Группировать'
+                : 'Разгруппировать'}
+                </Button>
+            </div>
         </div>
     )
 }

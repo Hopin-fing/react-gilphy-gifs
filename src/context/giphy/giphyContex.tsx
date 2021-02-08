@@ -10,6 +10,7 @@ interface IContextProps {
     data: any,
     groupMode: boolean,
     incorrectTag: boolean,
+    incorrectTags: Array<string>,
     loading: boolean
 }
 

@@ -46,6 +46,8 @@ export const  giphyReducer = (state : any, action : any) => {
                     data: newInfo,
                     loading: false,
                     incorrectTag: false,
+                    incorrectTags: []
+
                 }
             } else return {
                 ...state,
@@ -53,6 +55,8 @@ export const  giphyReducer = (state : any, action : any) => {
                 img: newImg,
                 loading: false,
                 incorrectTag: false,
+                incorrectTags: []
+
             }
 
 
@@ -68,7 +72,16 @@ export const  giphyReducer = (state : any, action : any) => {
             return {
                 ...state,
                 loading: false,
-                incorrectTag: true
+                incorrectTag: true,
+                incorrectTags: []
+            }
+        }
+        case 'TAGS_NOT_FOUND': {
+            return {
+                ...state,
+                loading: false,
+                incorrectTags: action.payload,
+                incorrectTag: false
             }
         }
         case 'SET_LOADING': {
